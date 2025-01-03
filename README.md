@@ -29,12 +29,20 @@ Esse projeto é usado pelas seguintes empresas:
 
 
 ## Stack utilizada
+- **Front-end**
+<div style="display: flex; align-items: center; "> 
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" width="50px"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" width="50px"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" width="50px"/>
+</div>  
 
-**Front-end:** 
-- Vite
-- React
-
-**Back-end:** 
+- **Back-end:** 
+<div style="display: flex; align-items: center; "> 
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" width="50px"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" width="50px"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" width="50px"/>
+</div>  
+</div>  
 - Node
 - Express
 - Qrcode

@@ -83,11 +83,21 @@ client.on('ready', () => {
 client.on('message', async (msg) => {
     try {
         const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
+        const contact = await msg.getContact();
+        const name = contact.pushname ? contact.pushname.split(" ")[0] : "cliente";
+
+        // Enviar uma mensagem inicial personalizada
+        await client.sendMessage(
+            msg.from,
+            `Olá, ${name}! Estou aqui para ajudá-lo. Vamos começar!`
+        );
+
+        // Enviar as perguntas e opções
         for (const { question, options } of questions) {
-            await client.sendMessage(msg.from, `${question}\n\n${options.join('\n')}`);
+            await client.sendMessage(msg.from, `${question}\n\n${options.map((o, i) => `${i + 1}. ${o}`).join('\n')}`);
         }
     } catch (err) {
-        console.error('Erro ao ler o arquivo de perguntas:', err);
+        console.error('Erro ao processar a mensagem:', err);
     }
 });
 

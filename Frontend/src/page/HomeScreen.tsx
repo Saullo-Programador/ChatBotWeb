@@ -13,7 +13,7 @@ export default function HomeScreen() {
         </div>
         <div className="">
           <Link to="/Mensagem" className="HomeLinks">
-            <button className="HomeButton">Gerenciar Perguntas</button>
+            <button className="HomeButton">Gerenciador de Mensagens</button>
           </Link>
         </div>
       </div>

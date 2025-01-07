@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import '../style/ConnectStyle.css'
+import NavBar from "../components/NavBar";
+import { Link } from "react-router-dom";
 
 const ConnectWhatsApp: React.FC = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
@@ -23,18 +26,29 @@ const ConnectWhatsApp: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Conectar ao WhatsApp</h2>
-      {error && <p>{error}</p>}
-      {qrCode ? (
-        <img
-          src={qrCode}
-          alt="QR Code"
-          style={{ width: "300px", height: "300px", margin: "auto", display: "block" }}
-        />
-      ) : (
-        <p>Carregando QR code...</p>
-      )}
+    <div className="ConnectContainer">
+      <NavBar title="Conectar ao WhatsApp" />
+      <div className="ConnectMain">
+        <h2>Conectar ao WhatsApp</h2>
+        {error && <p>{error}</p>}
+        {qrCode ? (
+          <>
+            <img
+              src={qrCode}
+              alt="QR Code"
+              style={{ width: "300px", height: "300px", margin: "auto", display: "block" }}
+            />
+            <Link to={"/"}>
+              <button className="ConnectButton">Conectou</button>
+            </Link>
+            <Link to={"/Conectar"}>
+              <button className="ConnectButton">Não Conectou</button>
+            </Link>
+          </>
+        ) : (
+          <p>Carregando QR code...</p>
+        )}
+      </div>
     </div>
   );
 };

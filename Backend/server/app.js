@@ -14,106 +14,142 @@ const QUESTIONS_FILE = path.join(__dirname, 'questions.json');
 app.use(cors());
 app.use(express.json());
 
-// Carregar ou inicializar as perguntas
+// Inicializar ou carregar perguntas
 if (!fs.existsSync(QUESTIONS_FILE)) {
-    try {
-        fs.writeFileSync(QUESTIONS_FILE, JSON.stringify([]));
-    } catch (err) {
-        console.error('Erro ao inicializar o arquivo de perguntas:', err);
-    }
+    fs.writeFileSync(QUESTIONS_FILE, JSON.stringify([]));
 }
 
-// Rotas da API
-app.get('/questions', (req, res) => {
+// Rota para obter perguntas
+app.get("/questions", (req, res) => {
     try {
-        const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
-        res.json(questions);
+      const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
+      res.json(questions);
     } catch (err) {
-        res.status(500).json({ message: 'Erro ao ler o arquivo de perguntas' });
+      res.status(500).json({ message: "Erro ao ler perguntas." });
     }
-});
-
-app.post('/questions', (req, res) => {
+  });
+  
+  // Rota para adicionar perguntas
+  app.post("/questions", (req, res) => {
     const { question, options } = req.body;
-    try {
-        const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
-        questions.push({ question, options });
-        fs.writeFileSync(QUESTIONS_FILE, JSON.stringify(questions, null, 2));
-        res.status(201).json({ message: 'Pergunta adicionada com sucesso' });
-    } catch (err) {
-        res.status(500).json({ message: 'Erro ao escrever no arquivo de perguntas' });
+    if (!question || !options || !Array.isArray(options)) {
+      return res.status(400).json({ message: "Dados inválidos." });
     }
-});
-
-app.delete('/questions/:index', (req, res) => {
+    try {
+      const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
+      questions.push({ question, options });
+      fs.writeFileSync(QUESTIONS_FILE, JSON.stringify(questions, null, 2));
+      res.status(201).json({ message: "Pergunta salva com sucesso." });
+    } catch (err) {
+      res.status(500).json({ message: "Erro ao salvar pergunta." });
+    }
+  });
+  
+  // Rota para deletar uma pergunta
+  app.delete("/questions/:index", (req, res) => {
     const index = parseInt(req.params.index);
     try {
-        const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
-        if (index >= 0 && index < questions.length) {
-            questions.splice(index, 1);
-            fs.writeFileSync(QUESTIONS_FILE, JSON.stringify(questions, null, 2));
-            res.json({ message: 'Pergunta deletada com sucesso' });
-        } else {
-            res.status(400).json({ message: 'Índice inválido' });
-        }
+      const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
+      if (index >= 0 && index < questions.length) {
+        questions.splice(index, 1);
+        fs.writeFileSync(QUESTIONS_FILE, JSON.stringify(questions, null, 2));
+        res.json({ message: "Pergunta removida com sucesso." });
+      } else {
+        res.status(400).json({ message: "Índice inválido." });
+      }
     } catch (err) {
-        res.status(500).json({ message: 'Erro ao ler ou escrever o arquivo de perguntas' });
+      res.status(500).json({ message: "Erro ao deletar pergunta." });
     }
-});
+  });
 
 // Integração com o WhatsApp
 client.on('qr', (qr) => {
     console.log('QR RECEBIDO:', qr);
-    if (!qrCodeData) {
-        // Gerar o QR code em formato base64
-        QRCode.toDataURL(qr, (err, url) => {
-            if (err) {
-                console.error('Erro ao gerar o QR code:', err);
-                return;
-            }
-            qrCodeData = url; // Armazena o QR code para o frontend
-        });
-    }
+    QRCode.toDataURL(qr, (err, url) => {
+        if (err) {
+            console.error('Erro ao gerar QR code:', err);
+            return;
+        }
+        global.qrCode = url;
+    });
 });
 
 client.on('ready', () => {
-    console.log('WhatsApp Web está pronto!');
+    console.log('WhatsApp está pronto!');
 });
 
 client.on('message', async (msg) => {
-    try {
-        const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE));
-        const contact = await msg.getContact();
-        const name = contact.pushname ? contact.pushname.split(" ")[0] : "cliente";
+    const contact = await msg.getContact();
+    const name = contact.pushname || "cliente";
 
-        // Enviar uma mensagem inicial personalizada
+    // Estado dos clientes
+    if (!global.clientStates) global.clientStates = {};
+    const clientState = global.clientStates;
+
+    if (!clientState[msg.from]) {
+        clientState[msg.from] = { step: 0, awaitingResponse: true };
         await client.sendMessage(
             msg.from,
-            `Olá, ${name}! Estou aqui para ajudá-lo. Vamos começar!`
+            `Olá, ${name}! Estou aqui para ajudá-lo. Vamos começar seu atendimento? Responda "sim" para iniciar.`
         );
+        return;
+    }
 
-        // Enviar as perguntas e opções
-        for (const { question, options } of questions) {
-            await client.sendMessage(msg.from, `${question}\n\n${options.map((o, i) => `${i + 1}. ${o}`).join('\n')}`);
+    const state = clientState[msg.from];
+
+    if (state.awaitingResponse) {
+        if (msg.body.trim().toLowerCase() === "sim") {
+            state.awaitingResponse = false;
+
+            const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE, 'utf-8'));
+            if (questions.length > 0) {
+                const { question, options } = questions[0];
+                await client.sendMessage(
+                    msg.from,
+                    `Ótimo! Vamos começar.\n\n${question}\n\n${options
+                        .map((o, i) => `${i + 1}. ${o}`)
+                        .join('\n')}`
+                );
+                state.step = 1;
+            } else {
+                await client.sendMessage(
+                    msg.from,
+                    "Nenhuma pergunta configurada. Por favor, entre em contato com o suporte."
+                );
+                delete clientState[msg.from];
+            }
+        } else {
+            await client.sendMessage(msg.from, 'Por favor, responda "sim" para iniciar o atendimento.');
         }
-    } catch (err) {
-        console.error('Erro ao processar a mensagem:', err);
+        return;
+    }
+
+    // Enviar próximas perguntas
+    const questions = JSON.parse(fs.readFileSync(QUESTIONS_FILE, 'utf-8'));
+    if (state.step > 0 && state.step <= questions.length) {
+        const { question, options } = questions[state.step];
+        await client.sendMessage(
+            msg.from,
+            `${question}\n\n${options.map((o, i) => `${i + 1}. ${o}`).join('\n')}`
+        );
+        state.step++;
+    } else if (state.step > questions.length) {
+        await client.sendMessage(msg.from, "Obrigado! Atendimento concluído.");
+        delete clientState[msg.from];
     }
 });
 
-client.initialize();
-
-// Servir o QR code
-let qrCodeData = null;
+// QR code para conexão
 app.get('/qr', (req, res) => {
-    if (qrCodeData) {
-        res.json({ qrCode: qrCodeData });
+    if (global.qrCode) {
+        res.json({ qrCode: global.qrCode });
     } else {
         res.status(404).json({ message: 'QR code ainda não gerado. Aguarde.' });
     }
 });
 
-// Iniciar o servidor
+// Inicializar cliente e servidor
+client.initialize();
 app.listen(PORT, () => {
-    console.log(`Servidor está rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

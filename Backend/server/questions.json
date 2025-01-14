@@ -1,12 +1,61 @@
 [
   {
+    "id": 0,
     "question": "Qual tipo de serviço você procura",
     "options": [
-      "Impressão de Cartões de Visita",
-      "Impressão de Panfletos",
-      "Banners e Faixas",
-      "Adesivos",
-      "Fachadas"
+      { "text": "Impressão de Cartões de Visita", "nextQuestionId": 1},
+      { "text": "Impressão de Panfletos", "nextQuestionId": 2 },
+      { "text": "Banners e Faixas", "nextQuestionId": 3 },
+      { "text": "Adesivos", "nextQuestionId": 4 },
+      { "text": "Fachadas", "nextQuestionId": 5 }
+    ]
+  },
+  {
+    "id": 1,
+    "question": "Impressão de cartão de visita - material do cartão de visita",
+    "options": [
+      { "text": "Papel", "nextQuestionId": null },
+      { "text": "Papel Supremo", "nextQuestionId": null },
+      { "text": "Papel Metalizado", "nextQuestionId": null },
+      { "text": "PVC", "nextQuestionId": null }
+    ]
+  },
+  {
+    "id": 2,
+    "question": "Impressão de Panfletos - material do Panfletos",
+    "options": [
+      { "text": "Papel", "nextQuestionId": null },
+      { "text": "Papel Supremo", "nextQuestionId": null },
+      { "text": "Papel Metalizado", "nextQuestionId": null },
+      { "text": "PVC", "nextQuestionId": null }
+    ]
+  },
+  {
+    "id": 3,
+    "question": "Impressão de Banners e Faixas - material do Banners e Faixas",
+    "options": [
+      { "text": "Lona Fosca", "nextQuestionId": null },
+      { "text": "Lona Brilho", "nextQuestionId": null }
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Impressão de Adesivos - Tipo de Adesivos",
+    "options": [
+      { "text": "Fosco", "nextQuestionId": null },
+      { "text": "Brilho", "nextQuestionId": null },
+      { "text": "Fosco Blackout", "nextQuestionId": null },
+      { "text": "Brilho Blackout", "nextQuestionId": null },
+      { "text": "Viniu", "nextQuestionId": null }
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Impressão de Fachadas - material da Fachadas",
+    "options": [
+      { "text": "Adesivo e acrílico ", "nextQuestionId": null },
+      { "text": "ACM", "nextQuestionId": null },
+      { "text": "PVC", "nextQuestionId": null }
     ]
   }
 ]

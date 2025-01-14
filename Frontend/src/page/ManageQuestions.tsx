@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import "../style/ManageStyle.css";
 import NavBar from "../components/NavBar";
 
+interface Option {
+  text: string;
+  nextQuestionId?: number | null;
+}
+
 interface Question {
+  id: number;
   question: string;
-  options: string[];
+  options: Option[];
 }
 
 const ManageQuestions: React.FC = () => {
-  const [question, setQuestion] = useState<string>("");
-  const [options, setOptions] = useState<string[]>([""]);
   const [questionsList, setQuestionsList] = useState<Question[]>([]);
+  const [newQuestion, setNewQuestion] = useState("");
+  const [newOptions, setNewOptions] = useState<Option[]>([{ text: "" }]);
 
   // Carregar perguntas ao montar o componente
   useEffect(() => {
@@ -28,39 +34,42 @@ const ManageQuestions: React.FC = () => {
     fetchQuestions();
   }, []);
 
-  const handleOptionChange = (index: number, value: string) => {
-    const updatedOptions = [...options];
-    updatedOptions[index] = value;
-    setOptions(updatedOptions);
+  const handleOptionChange = (index: number, value: Partial<Option>) => {
+    const updatedOptions = [...newOptions];
+    updatedOptions[index] = { ...updatedOptions[index], ...value };
+    setNewOptions(updatedOptions);
   };
 
   const handleAddOption = () => {
-    setOptions([...options, ""]);
+    setNewOptions([...newOptions, { text: "" }]);
   };
 
   const handleRemoveOption = (index: number) => {
-    const updatedOptions = options.filter((_, i) => i !== index);
-    setOptions(updatedOptions);
+    const updatedOptions = newOptions.filter((_, i) => i !== index);
+    setNewOptions(updatedOptions);
   };
 
   const handleAddQuestion = async () => {
-    if (question.trim() === "" || options.some((opt) => opt.trim() === "")) {
+    if (newQuestion.trim() === "" || newOptions.some((opt) => opt.text.trim() === "")) {
       alert("Preencha a pergunta e todas as opções.");
       return;
     }
-
-    const newQuestion: Question = { question, options };
+    const newQuestionData: Question = {
+      id: questionsList.length + 1, // Geração simples de ID (ajuste conforme necessário)
+      question: newQuestion,
+      options: newOptions,
+    };
 
     try {
       const response = await fetch("http://localhost:3000/questions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newQuestion),
+        body: JSON.stringify(newQuestionData),
       });
       if (response.ok) {
-        setQuestionsList([...questionsList, newQuestion]);
-        setQuestion("");
-        setOptions([""]);
+        setQuestionsList([...questionsList, newQuestionData]);
+        setNewQuestion("");
+        setNewOptions([{ text: "" }]);
       } else {
         alert("Erro ao salvar a pergunta.");
       }
@@ -69,13 +78,13 @@ const ManageQuestions: React.FC = () => {
     }
   };
 
-  const handleDeleteQuestion = async (index: number) => {
+  const handleDeleteQuestion = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/questions/${index}`, {
+      const response = await fetch(`http://localhost:3000/questions/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {
-        setQuestionsList(questionsList.filter((_, i) => i !== index));
+        setQuestionsList(questionsList.filter((q) => q.id !== id));
       } else {
         alert("Erro ao deletar a pergunta.");
       }
@@ -94,32 +103,34 @@ const ManageQuestions: React.FC = () => {
             <input
               type="text"
               placeholder="Digite a pergunta"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              value={newQuestion}
+              onChange={(e) => setNewQuestion(e.target.value)}
               className="ManageInput"
             />
-            {options.map((option, index) => (
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                }}
-              >
+            {newOptions.map((option, index) => (
+              <div key={index} style={{ display: "flex", alignItems: "center" }}>
                 <input
                   type="text"
                   placeholder={`Opção ${index + 1}`}
-                  value={option}
-                  onChange={(e) => handleOptionChange(index, e.target.value)}
-                  className="ManageInput"
+                  value={option.text}
+                  onChange={(e) =>
+                    handleOptionChange(index, { text: e.target.value })
+                  }
                 />
-                <button
-                  onClick={() => handleRemoveOption(index)}
-                  className="ManageRemoveButton"
+                <select
+                  value={option.nextQuestionId || ""}
+                  onChange={(e) =>
+                    handleOptionChange(index, { nextQuestionId: +e.target.value || null })
+                  }
                 >
-                  Excluir
-                </button>
+                  <option value="">Nenhuma</option>
+                  {questionsList.map((q) => (
+                    <option key={q.id} value={q.id}>
+                      {q.question}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={() => handleRemoveOption(index)}>Excluir</button>
               </div>
             ))}
             <button onClick={handleAddOption} className="ManageAddButton">
@@ -133,16 +144,16 @@ const ManageQuestions: React.FC = () => {
         <div className="ManageDiv1">
           <h2>Perguntas Criadas</h2>
           <ul>
-            {questionsList.map((q, index) => (
-              <li key={index}>
+            {questionsList.map((q) => (
+              <li key={q.id}>
                 <strong>{q.question}</strong>
                 <ul>
                   {q.options.map((option, i) => (
-                    <li key={i}>{option}</li>
+                    <li key={i}>{option.text}</li>
                   ))}
                 </ul>
                 <button
-                  onClick={() => handleDeleteQuestion(index)}
+                  onClick={() => handleDeleteQuestion(q.id)}
                   className="ManageDeleteButton"
                 >
                   Excluir

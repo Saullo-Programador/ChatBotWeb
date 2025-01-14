@@ -6,7 +6,7 @@
 }
 
 .ManageMain {
-    width: 100vw;
+    width: 100%;
     justify-content: space-around;
     display: flex;
 }

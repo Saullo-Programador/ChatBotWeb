@@ -42,7 +42,7 @@ app.get('/questions', (req, res) => {
   }
 });
 
-// Rota para adicionar perguntas
+// Rota para adicionar perguntas com subperguntas
 app.post('/questions', (req, res) => {
   const { question, options } = req.body;
   if (!question || !options || !Array.isArray(options)) {
@@ -51,11 +51,12 @@ app.post('/questions', (req, res) => {
   try {
     const questions = getQuestions();
     const newQuestion = {
-      id: questions.length, // Geração de ID automático
+      id: questions.length + 1,
       question,
       options: options.map((option) => ({
         text: option.text,
-        nextQuestionId: option.nextQuestionId || null, // Relaciona com outra pergunta
+        nextQuestionId: option.nextQuestionId || null,
+        subQuestions: option.subQuestions || [],
       })),
     };
     questions.push(newQuestion);
@@ -146,7 +147,10 @@ client.on('message', async (msg) => {
   const selectedOption = currentQuestion.options[selectedOptionIndex];
 
   if (selectedOption) {
-    if (selectedOption.nextQuestionId != null) {
+    if (selectedOption.subQuestions && selectedOption.subQuestions.length > 0) {
+      const subQuestion = selectedOption.subQuestions[0];
+      await client.sendMessage(msg.from, `${subQuestion.question}`);
+    } else if (selectedOption.nextQuestionId != null) {
       const nextQuestion = questions.find((q) => q.id === selectedOption.nextQuestionId);
       if (nextQuestion) {
         await client.sendMessage(

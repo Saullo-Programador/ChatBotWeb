@@ -1,61 +1,159 @@
 [
   {
     "id": 0,
-    "question": "Qual tipo de serviço você procura",
+    "question": "Qual tipo de serviço você procura?",
     "options": [
-      { "text": "Impressão de Cartões de Visita", "nextQuestionId": 1},
-      { "text": "Impressão de Panfletos", "nextQuestionId": 2 },
-      { "text": "Banners e Faixas", "nextQuestionId": 3 },
-      { "text": "Adesivos", "nextQuestionId": 4 },
-      { "text": "Fachadas", "nextQuestionId": 5 }
+      {
+        "text": "Impressão de Cartões de Visita",
+        "nextQuestionId": 1,
+        "subQuestions": []
+      },
+      {
+        "text": "Impressão de Panfletos",
+        "nextQuestionId": 2,
+        "subQuestions": []
+      },
+      {
+        "text": "Banners e Faixas",
+        "nextQuestionId": 3,
+        "subQuestions": []
+      },
+      {
+        "text": "Adesivos",
+        "nextQuestionId": 4,
+        "subQuestions": []
+      },
+      {
+        "text": "Fachadas",
+        "nextQuestionId": 5,
+        "subQuestions": []
+      }
     ]
   },
   {
     "id": 1,
     "question": "Impressão de cartão de visita - material do cartão de visita",
     "options": [
-      { "text": "Papel", "nextQuestionId": null },
-      { "text": "Papel Supremo", "nextQuestionId": null },
-      { "text": "Papel Metalizado", "nextQuestionId": null },
-      { "text": "PVC", "nextQuestionId": null }
+      {
+        "text": "Papel",
+        "nextQuestionId": null,
+        "subQuestions": [
+          { "question": "Deseja papel fosco ou brilhante?" }
+        ]
+      },
+      {
+        "text": "Papel Supremo",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "Papel Metalizado",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "PVC",
+        "nextQuestionId": null,
+        "subQuestions": []
+      }
     ]
   },
   {
     "id": 2,
     "question": "Impressão de Panfletos - material do Panfletos",
     "options": [
-      { "text": "Papel", "nextQuestionId": null },
-      { "text": "Papel Supremo", "nextQuestionId": null },
-      { "text": "Papel Metalizado", "nextQuestionId": null },
-      { "text": "PVC", "nextQuestionId": null }
+      {
+        "text": "Papel",
+        "nextQuestionId": null,
+        "subQuestions": [
+          { "question": "Qual o tamanho do papel? A4 ou A5?" }
+        ]
+      },
+      {
+        "text": "Papel Supremo",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "Papel Metalizado",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "PVC",
+        "nextQuestionId": null,
+        "subQuestions": []
+      }
     ]
   },
   {
     "id": 3,
     "question": "Impressão de Banners e Faixas - material do Banners e Faixas",
     "options": [
-      { "text": "Lona Fosca", "nextQuestionId": null },
-      { "text": "Lona Brilho", "nextQuestionId": null }
+      {
+        "text": "Lona Fosca",
+        "nextQuestionId": null,
+        "subQuestions": [
+          { "question": "Qual o tamanho do banner?" }
+        ]
+      },
+      {
+        "text": "Lona Brilho",
+        "nextQuestionId": null,
+        "subQuestions": []
+      }
     ]
   },
   {
     "id": 4,
     "question": "Impressão de Adesivos - Tipo de Adesivos",
     "options": [
-      { "text": "Fosco", "nextQuestionId": null },
-      { "text": "Brilho", "nextQuestionId": null },
-      { "text": "Fosco Blackout", "nextQuestionId": null },
-      { "text": "Brilho Blackout", "nextQuestionId": null },
-      { "text": "Viniu", "nextQuestionId": null }
+      {
+        "text": "Fosco",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "Brilho",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "Fosco Blackout",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "Brilho Blackout",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "Vinil",
+        "nextQuestionId": null,
+        "subQuestions": []
+      }
     ]
   },
   {
     "id": 5,
     "question": "Impressão de Fachadas - material da Fachadas",
     "options": [
-      { "text": "Adesivo e acrílico ", "nextQuestionId": null },
-      { "text": "ACM", "nextQuestionId": null },
-      { "text": "PVC", "nextQuestionId": null }
+      {
+        "text": "Adesivo e acrílico",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "ACM",
+        "nextQuestionId": null,
+        "subQuestions": []
+      },
+      {
+        "text": "PVC",
+        "nextQuestionId": null,
+        "subQuestions": []
+      }
     ]
   }
 ]

@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "../style/ManageStyle.css";
 import NavBar from "../components/NavBar";
+import { FaAngleDown } from "react-icons/fa6";
+import { FaAngleUp } from "react-icons/fa6";
+
+interface SubQuestion {
+  id: number;
+  question: string;
+}
 
 interface Option {
   text: string;
   nextQuestionId?: number | null;
+  subQuestions?: SubQuestion[];
 }
 
 interface Question {
@@ -13,12 +21,16 @@ interface Question {
   options: Option[];
 }
 
+interface QuestionCardProps {
+  question: Question;
+  questionsList: Question[];
+}
+
 const ManageQuestions: React.FC = () => {
   const [questionsList, setQuestionsList] = useState<Question[]>([]);
   const [newQuestion, setNewQuestion] = useState("");
-  const [newOptions, setNewOptions] = useState<Option[]>([{ text: "" }]);
+  const [newOptions, setNewOptions] = useState<Option[]>([{ text: "", subQuestions: [] }]);
 
-  // Carregar perguntas ao montar o componente
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -41,11 +53,31 @@ const ManageQuestions: React.FC = () => {
   };
 
   const handleAddOption = () => {
-    setNewOptions([...newOptions, { text: "" }]);
+    setNewOptions([...newOptions, { text: "", subQuestions: [] }]);
   };
 
   const handleRemoveOption = (index: number) => {
     const updatedOptions = newOptions.filter((_, i) => i !== index);
+    setNewOptions(updatedOptions);
+  };
+
+  const handleAddSubQuestion = (optionIndex: number) => {
+    const updatedOptions = [...newOptions];
+    const subQuestions = updatedOptions[optionIndex].subQuestions || [];
+    subQuestions.push({ id: subQuestions.length + 1, question: "" });
+    updatedOptions[optionIndex].subQuestions = subQuestions;
+    setNewOptions(updatedOptions);
+  };
+
+  const handleSubQuestionChange = (
+    optionIndex: number,
+    subIndex: number,
+    value: string
+  ) => {
+    const updatedOptions = [...newOptions];
+    if (updatedOptions[optionIndex].subQuestions) {
+      updatedOptions[optionIndex].subQuestions[subIndex].question = value;
+    }
     setNewOptions(updatedOptions);
   };
 
@@ -55,7 +87,7 @@ const ManageQuestions: React.FC = () => {
       return;
     }
     const newQuestionData: Question = {
-      id: questionsList.length + 1, // Geração simples de ID (ajuste conforme necessário)
+      id: questionsList.length + 1,
       question: newQuestion,
       options: newOptions,
     };
@@ -69,7 +101,7 @@ const ManageQuestions: React.FC = () => {
       if (response.ok) {
         setQuestionsList([...questionsList, newQuestionData]);
         setNewQuestion("");
-        setNewOptions([{ text: "" }]);
+        setNewOptions([{ text: "", subQuestions: [] }]);
       } else {
         alert("Erro ao salvar a pergunta.");
       }
@@ -78,19 +110,49 @@ const ManageQuestions: React.FC = () => {
     }
   };
 
-  const handleDeleteQuestion = async (id: number) => {
-    try {
-      const response = await fetch(`http://localhost:3000/questions/${id}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        setQuestionsList(questionsList.filter((q) => q.id !== id));
-      } else {
-        alert("Erro ao deletar a pergunta.");
+  const QuestionCard: React.FC<QuestionCardProps> = ({ question, questionsList }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+  
+    const toggleExpand = () => {
+      setIsExpanded(!isExpanded);
+    };
+  
+    const getNextQuestion = (nextQuestionId: number | null | undefined) => {
+      if (nextQuestionId === null || nextQuestionId === undefined) {
+        return null;
       }
-    } catch (err) {
-      console.error("Erro ao deletar pergunta:", err);
-    }
+      return questionsList.find((q) => q.id === nextQuestionId);
+    };
+  
+    return (
+      <div className="question-card">
+        {/* Pergunta principal */}
+        <div className="question-header" onClick={toggleExpand}>
+          {question.question}
+          {isExpanded ? <FaAngleUp /> : <FaAngleDown />}
+        </div>
+  
+        {/* Opções e subperguntas */}
+        {isExpanded && (
+          <div className="question-body">
+            <ul>
+              {question.options.map((option, index) => (
+                <li key={index}>
+                  <strong>Opção:</strong> {option.text}
+                  {/* Verifique se nextQuestionId existe */}
+                  {option.nextQuestionId !== null && option.nextQuestionId !== undefined && (
+                    <div className="sub-question">
+                      <strong>Próxima pergunta:</strong>{" "}
+                      {getNextQuestion(option.nextQuestionId)?.question || "Não encontrada"}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -108,29 +170,32 @@ const ManageQuestions: React.FC = () => {
               className="ManageInput"
             />
             {newOptions.map((option, index) => (
-              <div key={index} style={{ display: "flex", alignItems: "center" }}>
-                <input
-                  type="text"
-                  placeholder={`Opção ${index + 1}`}
-                  value={option.text}
-                  onChange={(e) =>
-                    handleOptionChange(index, { text: e.target.value })
-                  }
-                />
-                <select
-                  value={option.nextQuestionId || ""}
-                  onChange={(e) =>
-                    handleOptionChange(index, { nextQuestionId: +e.target.value || null })
-                  }
-                >
-                  <option value="">Nenhuma</option>
-                  {questionsList.map((q) => (
-                    <option key={q.id} value={q.id}>
-                      {q.question}
-                    </option>
+              <div key={index} style={{ marginBottom: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <input
+                    type="text"
+                    placeholder={`Opção ${index + 1}`}
+                    value={option.text}
+                    onChange={(e) =>
+                      handleOptionChange(index, { text: e.target.value })
+                    }
+                  />
+                  <button onClick={() => handleAddSubQuestion(index)}>+ Subpergunta</button>
+                  <button onClick={() => handleRemoveOption(index)}>Excluir</button>
+                </div>
+                {option.subQuestions &&
+                  option.subQuestions.map((sub, subIndex) => (
+                    <div key={subIndex} style={{ marginLeft: "20px" }}>
+                      <input
+                        type="text"
+                        placeholder={`Subpergunta ${subIndex + 1}`}
+                        value={sub.question}
+                        onChange={(e) =>
+                          handleSubQuestionChange(index, subIndex, e.target.value)
+                        }
+                      />
+                    </div>
                   ))}
-                </select>
-                <button onClick={() => handleRemoveOption(index)}>Excluir</button>
               </div>
             ))}
             <button onClick={handleAddOption} className="ManageAddButton">
@@ -143,24 +208,11 @@ const ManageQuestions: React.FC = () => {
         </div>
         <div className="ManageDiv1">
           <h2>Perguntas Criadas</h2>
-          <ul>
-            {questionsList.map((q) => (
-              <li key={q.id}>
-                <strong>{q.question}</strong>
-                <ul>
-                  {q.options.map((option, i) => (
-                    <li key={i}>{option.text}</li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => handleDeleteQuestion(q.id)}
-                  className="ManageDeleteButton"
-                >
-                  Excluir
-                </button>
-              </li>
+          <div className="manage-questions">
+            {questionsList.map((question) => (
+              <QuestionCard key={question.id} question={question} questionsList={questionsList} />
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </div>

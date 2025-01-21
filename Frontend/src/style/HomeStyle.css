@@ -29,6 +29,7 @@
     border: none;
     outline: none;
     text-decoration: none;
+    margin-top: 10px;
 }
 .HomeButton:hover {
     background-color: #0364ca;

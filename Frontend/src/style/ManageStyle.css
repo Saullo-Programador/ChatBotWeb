@@ -18,7 +18,8 @@
     justify-items: center;
     align-items: center;
 }
-.ManageDiv1{
+
+.ManageDiv1 {
     width: 40vw;
     padding: 20px;
 }
@@ -35,7 +36,7 @@
 }
 
 
-.ManageAddButton{
+.ManageAddButton {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
@@ -46,7 +47,7 @@
     margin-bottom: 20px;
 }
 
-.ManageRemoveButton{
+.ManageRemoveButton {
     padding: 10px;
     font-size: 16px;
     border-radius: 5px;
@@ -56,7 +57,7 @@
     cursor: pointer;
 }
 
-.ManageSubmitButton{
+.ManageSubmitButton {
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
@@ -64,4 +65,18 @@
     color: #fff;
     border: none;
     cursor: pointer;
+}
+
+.question-card {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+.question-header {
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -171,7 +171,7 @@ const ManageQuestions: React.FC = () => {
             />
             {newOptions.map((option, index) => (
               <div key={index} style={{ marginBottom: "10px" }}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center"}}>
                   <input
                     type="text"
                     placeholder={`Opção ${index + 1}`}
@@ -179,9 +179,10 @@ const ManageQuestions: React.FC = () => {
                     onChange={(e) =>
                       handleOptionChange(index, { text: e.target.value })
                     }
+                    style={{marginRight:"5px"}}
                   />
-                  <button onClick={() => handleAddSubQuestion(index)}>+ Subpergunta</button>
-                  <button onClick={() => handleRemoveOption(index)}>Excluir</button>
+                  <button onClick={() => handleAddSubQuestion(index)} style={{marginRight:"5px"}}>+ Subpergunta</button>
+                  <button onClick={() => handleRemoveOption(index)} className="ManageRemoveButton">Excluir</button>
                 </div>
                 {option.subQuestions &&
                   option.subQuestions.map((sub, subIndex) => (

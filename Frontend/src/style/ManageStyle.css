@@ -40,18 +40,16 @@
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
-    background-color: #28a745;
+    background-color: #00a70e;
     color: #fff;
     border: none;
     cursor: pointer;
-    margin-bottom: 20px;
 }
 
 .ManageRemoveButton {
-    padding: 10px;
     font-size: 16px;
     border-radius: 5px;
-    background-color: #dc3545;
+    background-color: #a70000;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -61,7 +59,7 @@
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #002FFF;
     color: #fff;
     border: none;
     cursor: pointer;

@@ -14,3 +14,11 @@
     box-shadow: 0px 5px 16px rgba(0,0,0,0.2);
     margin-top: 25px;
 }
+
+.ConnectButton {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+}

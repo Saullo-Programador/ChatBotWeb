@@ -38,11 +38,15 @@ const ConnectWhatsApp: React.FC = () => {
               alt="QR Code"
               style={{ width: "300px", height: "300px", margin: "auto", display: "block" }}
             />
-            <Link to={"/"}>
-              <button className="ConnectButton">Conectou</button>
+            <Link to={"/"}  className="HomeLinks">
+              <button className="ConnectButton" style={{color: "#00a70e", borderColor:"#00a70e" }}>
+                Conectou
+              </button>
             </Link>
-            <Link to={"/Conectar"}>
-              <button className="ConnectButton">Não Conectou</button>
+            <Link to={"/Conectar"} className="HomeLinks">
+              <button className="ConnectButton" style={{color: "#a70000", borderColor: "#a70000"}}>
+                Não Conectou
+              </button>
             </Link>
           </>
         ) : (

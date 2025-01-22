@@ -27,14 +27,6 @@ O sistema conectado a um whatsapp e assim cria um bot para responder e criar op√
 </div>
 
 
-## Usado por
-
-Esse projeto √© usado pelas seguintes empresas:
-
-- Empresa 1
-- Empresa 2
-
-
 ## Stack utilizada
 - **Front-end**
 <div style="display: flex; align-items: center; "> 

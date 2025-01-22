@@ -97,7 +97,8 @@ Instale as dependências
 ```bash
   npm install
 ```
-Entre no diretorio do codigo `app.js`
+
+Entre no diretorio do codigo `server.js`
 ```bash
 cd server
 ```
@@ -105,6 +106,6 @@ cd server
 Iniciar o gerador de QR Code
 
 ```bash
-  npm start
+  node server.js
 ```
 

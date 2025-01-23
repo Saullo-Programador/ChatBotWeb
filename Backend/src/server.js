@@ -1,18 +1,20 @@
 const express = require('express');
-const { setupMiddlewares, setupRoutes } = require('./interfaces/routes/Index.js');
-const whatsappClient = require('./infra/WhatsappClient');
+const corsMiddleware = require('./app/middlewares/CorsMiddleware'); // Caminho correto para o arquivo
 
 const app = express();
-const PORT = 3001;
 
-// Configurar middlewares e rotas
-setupMiddlewares(app);
-setupRoutes(app);
+// Configuração do CORS
+app.use(corsMiddleware);
 
-// Inicializar o cliente do WhatsApp
-whatsappClient.initialize();
+// Outras configurações do servidor...
+app.use(express.json());
 
-// Iniciar o servidor
+// Rotas
+const routes = require('./interfaces/routes/Index');
+app.use(routes);
+
+// Porta do servidor
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

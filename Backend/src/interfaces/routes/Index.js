@@ -1,7 +1,7 @@
-const corsMiddleware = require('../app/middlewares/corsMiddleware');
-const jsonMiddleware = require('../app/middlewares/jsonMiddleware');
-const questionsRoutes = require('./routes/questionsRoutes');
-const qrRoutes = require('./routes/qrRoutes');
+const corsMiddleware = require('../../app/middlewares/CorsMiddleware');
+const jsonMiddleware = require('../../app/middlewares/JsonMiddleware');
+const questionsRoutes = require('./QuestionsRoutes');
+const qrRoutes = require('./QrRoutes');
 
 const setupMiddlewares = (app) => {
   app.use(corsMiddleware);

@@ -5,6 +5,7 @@ const client = new Client();
 
 client.on('qr', (qr) => {
   qrService.saveQRCode(qr);
+  console.log('WhatsApp qr code gerado!');
 });
 
 client.on('ready', () => {

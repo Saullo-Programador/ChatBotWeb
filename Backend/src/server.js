@@ -1,6 +1,6 @@
 const express = require('express');
-const { setupMiddlewares, setupRoutes } = require('../interfaces/routes/Index');
-const whatsappClient = require('../infra/whatsapp/WhatsappClient');
+const { setupMiddlewares, setupRoutes } = require('./interfaces/routes/Index.js');
+const whatsappClient = require('./infra/WhatsappClient');
 
 const app = express();
 const PORT = 3000;

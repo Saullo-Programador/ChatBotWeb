@@ -10,7 +10,7 @@ const ConnectWhatsApp: React.FC = () => {
   useEffect(() => {
     const fetchQRCode = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/endpoint`);
+        const response = await fetch("http://localhost:3000/qr");
         if (response.ok) {
           const { qrCode } = await response.json();
           setQrCode(qrCode);

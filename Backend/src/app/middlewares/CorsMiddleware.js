@@ -10,4 +10,4 @@ const corsMiddleware = cors({
   credentials: true, // Se necessário (cookies, autenticação)
 });
 
-module.exports = corsMiddleware;
+module.exports = corsMiddleware;  // Exporte a função corretamente

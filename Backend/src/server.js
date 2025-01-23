@@ -1,5 +1,6 @@
 const express = require('express');
-const corsMiddleware = require('./app/middlewares/CorsMiddleware'); // Caminho correto para o arquivo
+const corsMiddleware = require('./app/middlewares/CorsMiddleware.js'); // Caminho correto para o arquivo
+console.log(typeof corsMiddleware)
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(corsMiddleware);
 app.use(express.json());
 
 // Rotas
-const routes = require('./interfaces/routes/Index');
+const routes = require('./interfaces/routes/Index.js');
 app.use(routes);
 
 // Porta do servidor

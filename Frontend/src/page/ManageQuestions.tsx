@@ -34,7 +34,7 @@ const ManageQuestions: React.FC = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch("http://localhost:3000/questions");
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/endpoint`);
         if (response.ok) {
           const data = await response.json();
           setQuestionsList(data);

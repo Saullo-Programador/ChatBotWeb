@@ -3,7 +3,7 @@ const { setupMiddlewares, setupRoutes } = require('./interfaces/routes/Index.js'
 const whatsappClient = require('./infra/WhatsappClient');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 // Configurar middlewares e rotas
 setupMiddlewares(app);

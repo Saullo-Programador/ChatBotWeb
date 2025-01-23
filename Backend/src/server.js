@@ -1,5 +1,5 @@
 const express = require('express');
-const corsMiddleware = require('./middlewares/CorsMiddleware'); // Caminho correto para o middleware
+const corsMiddleware = require('./app/middlewares/CorsMiddleware'); // Caminho correto para o middleware
 
 const app = express();
 

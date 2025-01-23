@@ -1,10 +1,17 @@
 const express = require('express');
-const corsMiddleware = require('./app/middlewares/CorsMiddleware'); // Caminho correto para o middleware
+const cors = require('cors');  // Importa diretamente o pacote CORS
 
 const app = express();
 
-// Use o middleware CORS
-app.use(corsMiddleware);
+// Use o middleware CORS diretamente
+app.use(cors({
+  origin: [
+    'https://chat-bot-qo1lw6kb7-saullo-programadors-projects.vercel.app',
+    'http://localhost:3000',
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 // Outras configurações do servidor
 app.use(express.json());

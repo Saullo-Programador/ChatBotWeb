@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 const ConnectWhatsApp: React.FC = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchQRCode = async () => {
       try {
-        const response = await fetch("http://localhost:3000/qr");
+        const response = await fetch(`${apiUrl}/qr`);
         if (response.ok) {
           const { qrCode } = await response.json();
           setQrCode(qrCode);

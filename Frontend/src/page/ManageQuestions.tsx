@@ -30,11 +30,12 @@ const ManageQuestions: React.FC = () => {
   const [questionsList, setQuestionsList] = useState<Question[]>([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [newOptions, setNewOptions] = useState<Option[]>([{ text: "", subQuestions: [] }]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch("http://localhost:3000/questions");
+        const response = await fetch(`${apiUrl}/questions`);
         if (response.ok) {
           const data = await response.json();
           setQuestionsList(data);
@@ -93,7 +94,7 @@ const ManageQuestions: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/questions", {
+      const response = await fetch(`${apiUrl}/questions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newQuestionData),

@@ -1,10 +1,10 @@
 services:
   - type: web
     name: chatbot-service
-    env: node
     plan: free
     buildCommand: npm install
     startCommand: npm start
+    runtime: node
     envVars:
       - key: NODE_ENV
         value: production

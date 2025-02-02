@@ -7,8 +7,6 @@ const PORT = process.env.PORT;
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-const morgan = require('morgan');
-app.use(morgan('combined'));
 
 const helmet = require('helmet');
 app.use(helmet());

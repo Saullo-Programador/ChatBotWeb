@@ -1,9 +1,8 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-  'https://chatbotweb-q157.onrender.com', // URL do backend
-  'http://localhost:3000', // Para desenvolvimento local
-  'https://chat-bot-711u1fc10-saullo-programadors-projects.vercel.app/', // Substitua pela URL final do frontend após o deploy
+  process.env.FRONTEND_URL, // Usando variável de ambiente
+  'http://localhost:3000' // Desenvolvimento local
 ];
 
 const corsOptions = {

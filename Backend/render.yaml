@@ -1,10 +1,13 @@
 services:
   - type: web
-    name: chatbot-service
-    plan: free
+    name: chatbot-backend
+    runtime: node # Adicionando o runtime correto
     buildCommand: npm install
-    startCommand: npm start
-    runtime: node
+    startCommand: node src/server.js
     envVars:
+      - key: PORT
+        value: 3000
+      - key: FRONTEND_URL
+        value: https://sua-url-frontend.vercel.app # Atualize após o deploy do frontend
       - key: NODE_ENV
         value: production

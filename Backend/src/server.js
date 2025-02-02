@@ -8,18 +8,10 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-const helmet = require('helmet');
-app.use(helmet());
-
 
 // Configurar middlewares e rotas
 setupMiddlewares(app);
 setupRoutes(app);
-
-// Adicione um endpoint de health check
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
 
 // Adicione tratamento de erros global
 app.use((err, req, res, next) => {

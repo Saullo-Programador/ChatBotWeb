@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const ConnectWhatsApp: React.FC = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchQRCode = async () => {

@@ -30,7 +30,7 @@ const ManageQuestions: React.FC = () => {
   const [questionsList, setQuestionsList] = useState<Question[]>([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [newOptions, setNewOptions] = useState<Option[]>([{ text: "", subQuestions: [] }]);
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchQuestions = async () => {

@@ -4,7 +4,7 @@ const whatsappClient = require('./infra/WhatsappClient');
 const cors = require('./app/middlewares/CorsMiddleware.js');
 
 const app = express();
-const PORT = process.env || 3000 ;
+const PORT = process.env ;
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -18,9 +18,6 @@ setupRoutes(app);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Erro interno do servidor' });
-});
-app.get('/qr', (req, res) => {
-  res.json({ message: "QR Code gerado com sucesso!" });
 });
 
 // Inicializar o cliente do WhatsApp

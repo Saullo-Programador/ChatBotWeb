@@ -4,7 +4,7 @@ const whatsappClient = require('./infra/WhatsappClient');
 const cors = require('./app/middlewares/CorsMiddleware.js');
 
 const app = express();
-const PORT = process.env || 4000 ;
+const PORT = process.env || 3000 ;
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }

@@ -1,7 +1,8 @@
 const cors = require('cors');
 
+
 const allowedOrigins = [
-  'https://chat-bot-web-nine.vercel.app', // URL do frontend no Vercel
+  'https://chat-bot-web-git-main-saullo-programadors-projects.vercel.app/', // URL do frontend no Vercel
   'http://localhost:3000' // Para desenvolvimento local
 ];
 

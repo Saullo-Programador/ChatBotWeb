@@ -1,12 +1,15 @@
 const express = require('express');
 const { setupMiddlewares, setupRoutes } = require('./interfaces/routes/Index.js');
 const whatsappClient = require('./infra/WhatsappClient.js');
+const cors = require('./app/middlewares/CorsMiddleware.js')
 
 const app = express();
 const PORT = process.env.PORT;
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+// Middleware de CORS
+app.use(cors);
 
 // Configurar middlewares e rotas
 setupMiddlewares(app);

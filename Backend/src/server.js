@@ -1,6 +1,7 @@
 const express = require('express');
 const { setupMiddlewares, setupRoutes } = require('./interfaces/routes/Index.js');
 const whatsappClient = require('./infra/WhatsappClient');
+const cors = require('./app/middlewares/CorsMiddleware.js');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -21,7 +22,7 @@ app.use((err, req, res, next) => {
 
 // Inicializar o cliente do WhatsApp
 whatsappClient.initialize();
-
+app.use(cors);
 // Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

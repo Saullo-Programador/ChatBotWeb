@@ -1,22 +1,20 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // Usando variável de ambiente
-  'http://localhost:3000' // Desenvolvimento local
+  'https://chat-bot-web-nine.vercel.app', // URL do frontend no Vercel
+  'http://localhost:3000' // Para desenvolvimento local
 ];
-console.log("Allowed Origins:", allowedOrigins);
-
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Permite requisições sem origem (como ferramentas do Postman) ou valida a origem
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Permite cookies se necessário
+  credentials: true, // Se estiver usando cookies ou autenticação
 };
 
-module.exports = cors(corsOptions);
+module.exports = require('cors')(corsOptions);
+

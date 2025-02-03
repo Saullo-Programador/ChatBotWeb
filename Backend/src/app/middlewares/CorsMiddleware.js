@@ -1,7 +1,7 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // Usando variável de ambiente
+  "https://chat-bot-web-git-main-saullo-programadors-projects.vercel.app/", // Usando variável de ambiente
   'http://localhost:3000' // Desenvolvimento local
 ];
 console.log("Allowed Origins:", allowedOrigins);

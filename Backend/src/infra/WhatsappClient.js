@@ -4,7 +4,10 @@ const qrService = require('./QrService');
 const client = new Client({
   authStrategy: new LocalAuth({
     dataPath: './session-data' // Persiste entre reinícios
-  })
+  }),
+  puppeteer: {
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  }
 });
 
 client.on('qr', (qr) => {

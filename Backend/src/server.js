@@ -19,6 +19,9 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Erro interno do servidor' });
 });
+app.get('/qr', (req, res) => {
+  res.json({ message: "QR Code gerado com sucesso!" });
+});
 
 // Inicializar o cliente do WhatsApp
 whatsappClient.initialize();

@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from "react";
-import '../style/ConnectStyle.css'
+import '../style/ConnectStyle.css';
 import NavBar from "../components/NavBar";
 import { Link } from "react-router-dom";
 
 const ConnectWhatsApp: React.FC = () => {
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://chatbotweb-laj5.onrender.com';
 
   useEffect(() => {
     const fetchQRCode = async () => {
       try {
-        const response = await fetch(`${apiUrl}/qr`);
+        const response = await fetch(`${apiUrl}/qr`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include' // Garante que a origem seja enviada corretamente
+        });
+
         if (response.ok) {
-          const { qrCode } = await response.json();
-          setQrCode(qrCode);
+          const data = await response.json();
+          setQrCode(data.qrCode);
         } else {
           setError("QR code ainda não disponível. Aguarde...");
         }
-      } catch {
+      } catch (err) {
         setError("Erro ao carregar o QR code. Tente novamente.");
       }
     };
 
     fetchQRCode();
-  }, []);
+  }, [apiUrl]);
 
   return (
     <div className="ConnectContainer">

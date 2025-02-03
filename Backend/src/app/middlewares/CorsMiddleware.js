@@ -1,8 +1,8 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL || "https://chat-bot-web-nine.vercel.app",
-  'http://localhost:3000' // Para ambiente de desenvolvimento
+  process.env.FRONTEND_URL || 'https://chat-bot-web-nine.vercel.app',
+  'http://localhost:3000'
 ];
 
 const corsOptions = {
@@ -16,7 +16,7 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, // Permite cookies e headers de autenticação
+  credentials: true, // Permite cookies e autenticação via headers
 };
 
 module.exports = cors(corsOptions);

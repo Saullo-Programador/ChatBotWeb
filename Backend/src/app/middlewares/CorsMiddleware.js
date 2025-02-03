@@ -13,6 +13,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error('Bloqueado por CORS:', origin); // Log detalhado
       callback(new Error('Not allowed by CORS'));
     }
   },

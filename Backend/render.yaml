@@ -8,6 +8,6 @@ services:
       - key: PORT
         value: 3000
       - key: FRONTEND_URL
-        value: https://sua-url-frontend.vercel.app # Atualize após o deploy do frontend
+        value: https://chat-bot-web-git-main-saullo-programadors-projects.vercel.app/ # Atualize após o deploy do frontend
       - key: NODE_ENV
         value: production

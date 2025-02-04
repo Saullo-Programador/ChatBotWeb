@@ -3,7 +3,7 @@ const cors = require('cors');
 const allowedOrigins = [
   'https://chat-bot-web-nine.vercel.app',
   'http://localhost:3000',
-  'https://chat-bot-web-git-main-saullo-programadors-projects.vercel.app/Conectar'
+  'https://chat-bot-web-git-main-saullo-programadors-projects.vercel.app'
 ];
 
 const corsOptions = {
